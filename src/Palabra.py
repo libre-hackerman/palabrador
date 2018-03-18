@@ -17,37 +17,17 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 
 from random import randint
+from src.LectorConfig import LectorConfig
 
 
 class Palabra:
     def __init__(self, l):
-        # ‱ de aparición (1/10000)
-        self.vocales_10000 = {"a": 2780,
-                              "e": 3035,
-                              "i": 1387,
-                              "o": 1926,
-                              "u": 872}
-        self.consonantes_10000 = {"b": 258,
-                                  "c": 850,
-                                  "d": 1064,
-                                  "f": 125,
-                                  "g": 183,
-                                  "h": 127,
-                                  "j": 80,
-                                  "k": 4,
-                                  "l": 902,
-                                  "m": 572,
-                                  "n": 1218,
-                                  "p": 456,
-                                  "q": 160,
-                                  "r": 1248,
-                                  "s": 1449,
-                                  "t": 841,
-                                  "v": 163,
-                                  "w": 2,
-                                  "x": 40,
-                                  "y": 163,
-                                  "z": 94}
+        # Cargador de reglas de generación
+        self.reglas = LectorConfig()
+
+        # ‱ de aparición
+        self.vocales_10000 = self.reglas.prob_vocales
+        self.consonantes_10000 = self.reglas.prob_consonantes
         self.longitud = l
         self.palabra = ""
 

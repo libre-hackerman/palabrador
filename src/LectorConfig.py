@@ -18,6 +18,7 @@
 
 import sys
 
+
 class LectorConfig:
     def __init__(self):
         # Diccionarios de probabilidad
@@ -28,14 +29,40 @@ class LectorConfig:
         self.fichero_prob_vocales = "reglas/prob_vocales.rl"
         self.fichero_prob_consonantes = "reglas/prob_consonantes.rl"
 
+        # Carga de probabilidades
+        self.cargar_prob_vocales()
+        self.cargar_prob_consonantes()
+
     def cargar_prob_vocales(self):
-        separador = "-"
+        separador = ":"
 
         try:
             flujo_lectura = open(self.fichero_prob_vocales, mode="r", encoding="utf-8")
+            lineas = flujo_lectura.readlines()
+
+            for l in lineas:
+                vocal = l.split(separador)[0]
+                probabilidad = int(l.split(separador)[1])
+                self.prob_vocales.update({vocal: probabilidad})
 
         except FileNotFoundError:
             # Escribe en stderr
             print("No existe el archivo", self.fichero_prob_vocales, file=sys.stderr)
             sys.exit(2)
 
+    def cargar_prob_consonantes(self):
+        separador = ":"
+
+        try:
+            flujo_lectura = open(self.fichero_prob_consonantes, mode="r", encoding="utf-8")
+            lineas = flujo_lectura.readlines()
+
+            for l in lineas:
+                consonante = l.split(separador)[0]
+                probabilidad = int(l.split(separador)[1])
+                self.prob_consonantes.update({consonante: probabilidad})
+
+        except FileNotFoundError:
+            # Escribe en stderr
+            print("No existe el archivo", self.fichero_prob_consonantes, file=sys.stderr)
+            sys.exit(2)
