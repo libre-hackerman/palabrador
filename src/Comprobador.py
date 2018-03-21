@@ -18,7 +18,7 @@
 
 import urllib.request
 from time import sleep
-from src.LectorConfig import LectorConfig
+from src.LectorLibros import LectorLibros
 
 class Comprobador:
     def __init__(self, lista_palabras, silencioso, wikipedia, diccionarios):
@@ -36,7 +36,7 @@ class Comprobador:
             self.comprobar_wikipedia()
 
         if diccionarios:
-            self.diccionarios = LectorConfig(True, False)  # Carga diccionarios, no probabilidades
+            self.diccionarios = LectorLibros()
             self.comprobar_diccionarios()
 
         if not self.silencioso:
@@ -60,15 +60,12 @@ class Comprobador:
             encontrada = False
             # Recorre la lista de libros
             for libro in self.diccionarios.libros.keys():
-                # Recorre las palabras de cada libro
-                for referencia in self.diccionarios.libros[libro]:
-                    if palabra == referencia:
-                        self.d_palabras_encontradas.append(palabra)
-                        if not self.silencioso:
-                            print("La palabra", palabra, "se ha encontrado en", libro)
-                        encontrada = True
-                        break  # Deja de buscar en el libro
-                if encontrada:
+                # Busca la palabra en cada libro
+                if palabra in self.diccionarios.libros[libro]:
+                    self.d_palabras_encontradas.append(palabra)
+                    if not self.silencioso:
+                        print("La palabra", palabra, "se ha encontrado en", libro)
+                    encontrada = True
                     break  # Evita que compruebe el siguiente libro
             if not encontrada:
                 self.d_palabras_no_encontradas.append(palabra)

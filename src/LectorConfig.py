@@ -20,29 +20,19 @@ import sys
 import os
 
 class LectorConfig:
-    def __init__(self, diccionarios, probabilidades):
+    def __init__(self):
         # Índices de probabilidad
         self.prob_vocales = {}
         self.prob_consonantes = {}
-
-        # Diccionarios
-        self.libros = {}
 
         # Rutas de probabilidades
         self.fichero_prob_vocales = "reglas/prob_vocales.rl"
         self.fichero_prob_consonantes = "reglas/prob_consonantes.rl"
 
-        # Ruta del directorio de diccionarios
-        self.directorio_libros = "libros/"
-
         # Carga de probabilidades
-        if probabilidades:
-            self.cargar_prob_vocales()
-            self.cargar_prob_consonantes()
+        self.cargar_prob_vocales()
+        self.cargar_prob_consonantes()
 
-        # Carga de la lista de diccionarios
-        if diccionarios:
-            self.cargar_libros()
 
     def cargar_prob_vocales(self):
         separador = ":"
@@ -77,37 +67,3 @@ class LectorConfig:
             # Escribe en stderr
             print("No existe el archivo", self.fichero_prob_consonantes, file=sys.stderr)
             sys.exit(2)
-
-    def cargar_libros(self):
-        archivos = os.listdir(self.directorio_libros)
-        for a in archivos:
-            if os.path.isfile(self.directorio_libros + a):
-                palabras = self.leer_libro(self.directorio_libros + a)
-                self.libros.update({a: palabras})
-
-    def leer_libro(self, libro):
-        palabras = []
-        flujo_lectura = open(libro, mode="r", encoding="UTF-8")
-        for linea in flujo_lectura:
-            # [: -1] omite el último carácter (\n)
-            for palabra in linea.lower()[:-1].split(" "):
-                palabras.append(self.de_acentar(palabra))
-        flujo_lectura.close()
-        return palabras
-
-    def de_acentar(self, original):
-        nueva = ""
-        for letra in original:
-            if letra == "á":
-                nueva += "a"
-            elif letra == "é":
-                nueva += "e"
-            elif letra == "í":
-                nueva += "i"
-            elif letra == "ó":
-                nueva += "o"
-            elif letra == "ú" or letra == "ü":
-                nueva += "u"
-            else:
-                nueva += letra
-        return nueva

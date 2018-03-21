@@ -23,7 +23,7 @@ from src.LectorConfig import LectorConfig
 class Palabra:
     def __init__(self, l):
         # Cargador de reglas de generación
-        self.reglas = LectorConfig(False, True)  # Carga probabilidades, no diccionarios
+        self.reglas = LectorConfig()
 
         # ‱ de aparición
         self.vocales_10000 = self.reglas.prob_vocales
