@@ -30,10 +30,10 @@ class Escritor:
                 args.archivo, mode="w", encoding="utf-8")
             self.escribir(args.palabras, args.numerar)
             self.flujo_escritura.close()
-            if args.comprobar and not args.interfaz:
-                Comprobador(self.lista_palabras, False)
+            if (args.wikipedia or args.diccionarios) and not args.interfaz:
+                Comprobador(self.lista_palabras, False, args.wikipedia, args.diccionarios)
             elif args.interfaz:
-                Ventana2(self.lista_palabras, args.comprobar)
+                Ventana2(self.lista_palabras, args.wikipedia)
 
     def escribir(self, n, numerar):
         for i in range(0, n):

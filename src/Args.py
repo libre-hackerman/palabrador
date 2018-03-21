@@ -28,8 +28,9 @@ class Args:
         self.longitud = 5
         self.numerar = False
         self.escribir = True
-        self.comprobar = False
+        self.wikipedia = False
         self.interfaz = False
+        self.diccionarios = False
 
         self.extraer()
 
@@ -37,7 +38,7 @@ class Args:
         try:
             # [1:] omite el primer elemento
             opciones, argumentos = getopt.getopt(
-                sys.argv[1:], "f:p:l:nwhg", ["help"])
+                sys.argv[1:], "f:p:l:nwhgd", ["help"])
             if len(argumentos) > 0:
                 self.error("sintaxis", None)
             for opcion, argumento in opciones:
@@ -56,13 +57,15 @@ class Args:
                 elif opcion == "-n":
                     self.numerar = True
                 elif opcion == "-w":
-                    self.comprobar = True
+                    self.wikipedia = True
+                elif opcion == "-d":
+                    self.diccionarios = True
                 elif opcion == "-g":
                     self.interfaz = True
-                    v1 = Ventana1(self.palabras, self.longitud, self.comprobar, self.archivo, self.numerar)
+                    v1 = Ventana1(self.palabras, self.longitud, self.wikipedia, self.archivo, self.numerar)
                     self.palabras = int(v1.n_palabras.get())
                     self.longitud = int(v1.longitud.get())
-                    self.comprobar = bool(v1.wikipedia.get())
+                    self.wikipedia = bool(v1.wikipedia.get())
                     self.numerar = bool(v1.numerar.get())
                     self.archivo = v1.archivo_salida.get()
                 else:
@@ -78,7 +81,8 @@ Argumentos:
 \t-p N -> Seleccionar número de palabras (defecto: 100)
 \t-l N -> Seleccionar longitud de las palabras (defecto: 5)
 \t-n -> Numera las palabras
-\t-w -> Busca la palabra en Wikipedia
+\t-w -> Busca las palabras en Wikipedia
+\t-d -> Busca las palabras en los diccionarios
 \t-g -> Abrir interfaz gráfica
 \t-h --help -> Muestra esta ayuda""")
 
@@ -86,5 +90,5 @@ Argumentos:
         if tipo == "valor":
             print(arg, "no es un entero")
         else:
-            print(sys.argv[0], "[-h] [[-f archivo] [-p Npalabras] [-l longitud] [-w] [-n]] [-g]")
+            print(sys.argv[0], "[-h] [[-f archivo] [-p Npalabras] [-l longitud] [-w] [-d] [-n]] [-g]")
         sys.exit(2)  # Sale con código de error 2

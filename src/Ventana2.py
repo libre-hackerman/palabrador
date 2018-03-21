@@ -56,10 +56,10 @@ class Ventana2:
             self.etiqueta_total = tk.Label(self.frame_cuadro_estadisticas,
                                            text=("Total palabras: " + str(len(self.lista_palabras))))
             self.etiqueta_encontradas = tk.Label(self.frame_cuadro_estadisticas,
-                                                 text=("Encontradas: " + str(len(self.wiki.palabras_encontradas))),
+                                                 text=("Encontradas: " + str(len(self.wiki.w_palabras_encontradas))),
                                                  fg="green")
             self.etiqueta_no_encontradas = tk.Label(self.frame_cuadro_estadisticas,
-                                                    text=(" No encontradas: " + str(len(self.wiki.palabras_no_encontradas))),
+                                                    text=(" No encontradas: " + str(len(self.wiki.w_palabras_no_encontradas))),
                                                     fg="red")
             imagen_wikipedia = ImageTk.PhotoImage(file="img/wiki_logo.png")
             self.etiqueta_wikipedia = tk.Label(self.frame_cuadro_estadisticas, image=imagen_wikipedia)
@@ -96,7 +96,7 @@ class Ventana2:
             self.cuadro_palabras.insert(i, self.lista_palabras[i])
             # Color del texto
             if self.comprobar:
-                if self.lista_palabras[i] in self.wiki.palabras_encontradas:
+                if self.lista_palabras[i] in self.wiki.w_palabras_encontradas:
                     self.cuadro_palabras.itemconfig(i, fg="green")
                 else:
                     self.cuadro_palabras.itemconfig(i, fg="red")
@@ -117,5 +117,5 @@ class Ventana2:
         # TODO hacer una solución decente
         for i in range(0, 20):
             ventana.update()
-        self.wiki = Comprobador(self.lista_palabras, True)
+        self.wiki = Comprobador(self.lista_palabras, True, True, False)  # Silencioso, Wikipedia, no diccionarios
         ventana.destroy()
