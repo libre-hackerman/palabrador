@@ -1,9 +1,13 @@
 import os
+from time import time
 
 class LectorLibros:
     def __init__(self):
         # Diccionario de libros {fichero: lista_palabras}
         self.libros = {}
+
+        # Tiempo de carga
+        self.tiempo_carga = 0
 
         # Ruta del directorio de diccionarios
         self.directorio_libros = "libros/"
@@ -11,11 +15,13 @@ class LectorLibros:
         self.cargar_libros()
 
     def cargar_libros(self):
+        t1 = time()
         archivos = os.listdir(self.directorio_libros)
         for a in archivos:
             if os.path.isfile(self.directorio_libros + a):
                 palabras = self.leer_libro(self.directorio_libros + a)
                 self.libros.update({a: palabras})
+        self.tiempo_carga = time() - t1
 
     def leer_libro(self, libro):
         palabras = []

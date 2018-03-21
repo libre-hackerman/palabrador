@@ -17,7 +17,7 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 
 import urllib.request
-from time import sleep
+from time import sleep, time
 from src.LectorLibros import LectorLibros
 
 class Comprobador:
@@ -32,6 +32,9 @@ class Comprobador:
         self.d_palabras_encontradas = []
         self.d_palabras_no_encontradas = []
 
+        self.w_tiempo_busqueda = 0
+        self.d_tiempo_busqueda = 0
+
         if wikipedia:
             self.comprobar_wikipedia()
 
@@ -43,6 +46,7 @@ class Comprobador:
             self.mostrar_marcador(wikipedia, diccionarios)
 
     def comprobar_wikipedia(self):
+        t1 = time()
         for palabra in self.palabras:
             sleep(self.pausa)
 
@@ -53,8 +57,10 @@ class Comprobador:
                 self.w_palabras_encontradas.append(palabra)
             except urllib.error.URLError:
                 self.w_palabras_no_encontradas.append(palabra)
+        self.w_tiempo_busqueda = time() - t1
 
     def comprobar_diccionarios(self):
+        t1 = time()
         # Recorre la lista de palabras generadas
         for palabra in self.palabras:
             encontrada = False
@@ -69,14 +75,18 @@ class Comprobador:
                     break  # Evita que compruebe el siguiente libro
             if not encontrada:
                 self.d_palabras_no_encontradas.append(palabra)
+        self.d_tiempo_busqueda = time() - t1
 
     def mostrar_marcador(self, wikipedia, diccionarios):
         if wikipedia:
             print("\nEstadísticas de Wikipedia:")
             print("Palabras encontradas:", len(self.w_palabras_encontradas))
             print("Palabras no encontradas:", len(self.w_palabras_no_encontradas))
+            print("Tiempo de búsqueda:", round(self.w_tiempo_busqueda, 2), "s")  # Redondea a las centésimas
         if diccionarios:
             print("\nEstadísticas de diccionarios:")
+            print("Tiempo de lectura de diccionarios:", round(self.diccionarios.tiempo_carga, 2), "s")
+            print("Tiempo de búsqueda:", round(self.d_tiempo_busqueda, 2), "s")
             print("Diccionarios usados:")
             for dic in self.diccionarios.libros.keys():
                 print("-", dic)
