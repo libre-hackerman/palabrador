@@ -19,6 +19,7 @@
 import urllib.request
 from time import sleep, time
 from src.LectorLibros import LectorLibros
+from src.Escritor import Escritor
 
 class Comprobador:
     def __init__(self, lista_palabras, silencioso, wikipedia, diccionarios):
@@ -31,7 +32,6 @@ class Comprobador:
         # Palabras de diccionarios
         self.d_palabras_encontradas = []
         self.d_palabras_no_encontradas = []
-
         self.w_tiempo_busqueda = 0
         self.d_tiempo_busqueda = 0
 
@@ -41,6 +41,9 @@ class Comprobador:
         if diccionarios:
             self.diccionarios = LectorLibros()
             self.comprobar_diccionarios()
+
+        # Escritura de las palabras encontradas
+        Escritor.escribir_archivo_encontradas(self.w_palabras_encontradas+self.d_palabras_encontradas)
 
         if not self.silencioso:
             self.mostrar_marcador(wikipedia, diccionarios)

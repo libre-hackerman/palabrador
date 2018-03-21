@@ -31,9 +31,13 @@ class Nucleo:
             for i in range(0, args.palabras):
                 self.lista_palabras.append(self.generador.obtener_nueva())
 
-            Escritor.escribir_archivo_todas(args.archivo, self.lista_palabras, args.numerar)
+            # Escritura de las palabras generadas
+            Escritor.archivo = args.archivo
+            Escritor.numerar = args.numerar
+            Escritor.escribir_archivo_todas(self.lista_palabras)
 
             if (args.wikipedia or args.diccionarios) and not args.interfaz:
+                # Comprobación en terminal
                 Comprobador(self.lista_palabras, False, args.wikipedia, args.diccionarios)
             elif args.interfaz:
                 Ventana2(self.lista_palabras, args.wikipedia)
