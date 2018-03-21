@@ -16,29 +16,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 
-from src.Palabra import Palabra
-from src.Comprobador import Comprobador
-from src.Ventana2 import Ventana2
 
 class Escritor:
-    def __init__(self, args):
-        if (args.escribir):
-            self.generador = Palabra(args.longitud)
-            self.lista_palabras = []
-
-            self.flujo_escritura = open(
-                args.archivo, mode="w", encoding="utf-8")
-            self.escribir(args.palabras, args.numerar)
-            self.flujo_escritura.close()
-            if (args.wikipedia or args.diccionarios) and not args.interfaz:
-                Comprobador(self.lista_palabras, False, args.wikipedia, args.diccionarios)
-            elif args.interfaz:
-                Ventana2(self.lista_palabras, args.wikipedia)
-
-    def escribir(self, n, numerar):
-        for i in range(0, n):
-            self.lista_palabras.append(self.generador.nueva())
-
+    @staticmethod
+    def escribir_archivo_todas(archivo, lista_palabras, numerar):
+        flujo_escritura = open(archivo, mode="w", encoding="utf-8")
+        for i in range(0, len(lista_palabras)):
             if numerar:
-                self.flujo_escritura.write(str(i+1) + " ")
-            self.flujo_escritura.write(self.lista_palabras[i] + "\n")
+                flujo_escritura.write(str(i + 1) + " ")
+            flujo_escritura.write(lista_palabras[i] + "\n")
+        flujo_escritura.close()
+
+    @staticmethod
+    def escribir_archivo_encontradas(archivo, lista_palabras, numerar):
+        # Descartar repetidos
+        lista_final = []
+        for x in lista_palabras:
+            if x not in lista_final:
+                lista_final.append(x)
+
+        flujo_escritura = open(archivo, mode="w", encoding="utf-8")
+        for i in range(0, len(lista_final)):
+            if numerar:
+                flujo_escritura.write(str(i + 1) + " ")
+            flujo_escritura.write(lista_final[i] + "\n")

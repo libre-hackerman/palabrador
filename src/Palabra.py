@@ -63,6 +63,6 @@ class Palabra:
                 self.palabra += self.vocales_pool[randint(
                     0, len(self.vocales_pool)-1)]
 
-    def nueva(self):
+    def obtener_nueva(self):
         self.generar()
         return self.palabra

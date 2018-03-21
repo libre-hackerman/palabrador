@@ -20,9 +20,9 @@
 
 # ES NECESARIO TENER PYTHON IMAGING LIBRARY (PIL ó PILLOW) Y TKINTER
 
-from src.Escritor import Escritor
+from src.Nucleo import Nucleo
 from src.Args import Args
 
 
 if __name__ == "__main__":
-    Escritor(Args())
+    Nucleo(Args())
